@@ -1,0 +1,97 @@
+/* Typora-Style for Obsidian 
+   模仿 Typora 经典 GitHub 主题
+*/
+
+:root {
+    --font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --header-color: #333;
+    --text-color: #333;
+    --accent-color: #428bca;
+    --blockquote-color: #777;
+    --line-height: 1.6;
+}
+
+/* 基础排版优化 */
+.markdown-source-view.mod-cm6 .cm-scroller,
+.markdown-rendered {
+    font-family: var(--font-family);
+    line-height: var(--line-height) !important;
+    color: var(--text-color);
+}
+
+/* 标题样式：Typora 特色的 H1 和 H2 下划线 */
+.markdown-rendered h1, .cm-header-1,
+.markdown-rendered h2, .cm-header-2 {
+    border-bottom: 1px solid #eaecef !important;
+    padding-bottom: 0.3em !important;
+    font-weight: 600;
+    color: var(--header-color);
+}
+
+.markdown-rendered h1, .cm-header-1 { font-size: 2em; }
+.markdown-rendered h2, .cm-header-2 { font-size: 1.5em; }
+
+/* 引用块样式 */
+.markdown-rendered blockquote,
+.cm-quote {
+    border-left: 4px solid #dfe2e5 !important;
+    color: var(--blockquote-color) !important;
+    padding: 0 15px !important;
+    margin: 1em 0 !important;
+    background: transparent !important;
+}
+
+/* 列表间距调整 */
+.markdown-rendered ul, .markdown-rendered ol {
+    padding-left: 2em !important;
+}
+
+/* 行内代码样式 */
+.markdown-rendered code,
+.cm-inline-code {
+    background-color: rgba(27, 31, 35, 0.05) !important;
+    border-radius: 3px;
+    padding: 0.2em 0.4em !important;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace !important;
+    font-size: 85% !important;
+    color: #e96900 !important; /* Typora 经典橙色行内代码 */
+}
+
+/* 代码块样式 */
+.markdown-rendered pre {
+    background-color: #f6f8fa !important;
+    border-radius: 3px;
+    padding: 16px !important;
+    border: none !important;
+}
+
+/* 高亮样式 ==highlight== */
+.markdown-rendered mark {
+    background-color: #fff5b1 !important;
+    border-bottom: 2px solid #ff9100;
+    padding: 0 2px;
+}
+
+/* 任务列表样式 */
+.task-list-item-checkbox {
+    margin-right: 0.5em !important;
+}
+
+/* 链接颜色 */
+.markdown-rendered a, .cm-link {
+    color: var(--accent-color) !important;
+    text-decoration: none;
+}
+
+.markdown-rendered a:hover {
+    text-decoration: underline;
+}
+
+/* 实时预览模式下隐藏 Markdown 标记的平滑感 */
+.cm-formatting-header, 
+.cm-formatting-em, 
+.cm-formatting-strong, 
+.cm-formatting-link, 
+.cm-formatting-code-inline {
+    opacity: 0.3; /* 半透明显示标记，让视觉更聚焦内容 */
+}

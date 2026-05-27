@@ -5778,8 +5778,6 @@ print(set7)
 
 Python 支持的集合论运算共分为：
 
-
-
 <img src="media/数学集合论运算.png" style="zoom: 67%;" />
 
 - **并集 Union**：**包含 集合A 和 集合B 的所有元素**
@@ -23362,12 +23360,6 @@ def my_resource():
       # 执行复杂的 SQL 或 API 请求
       time.sleep(1)
   ```
-
-## 并发编程
-
-[并发编程学习笔记]: ./19-并发编程.md
-
-
 
 ## 元编程
 

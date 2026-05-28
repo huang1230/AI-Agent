@@ -16852,10 +16852,6 @@ print(type.__class__)  # <class 'type'> type 的类型是 type
 
 ​	**`type` 元类用来让类拥有实例化能力，`object` 基类让类持有 “继承链” 查找机制**。
 
-
-
-
-
 <img src="media/type元类与object基类的关系.png" style="zoom:50%;" />
 
 ```python

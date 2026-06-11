@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Python/Python 学习笔记.md",
-                "mode": "preview",
+                "file": "Python/01-Python 基础/08-运算符.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Python 学习笔记"
+              "title": "08-运算符"
             }
           }
         ]
@@ -53,13 +53,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Python/Python 学习笔记.md",
+                "file": "Python/01-Python 基础/08-运算符.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Python 学习笔记 的大纲"
+              "title": "08-运算符 的大纲"
             }
           },
           {
@@ -199,8 +199,35 @@
       "bases:新建数据库": false
     }
   },
-  "active": "75c62eb5a360605e",
+  "active": "13f659b9ea3a7640",
   "lastOpenFiles": [
+    "Python/01-Python 基础/02-环境管理.md",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/SSE（Server-Sent Events）-断线重连机制.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 607598.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/SSE（Server-Sent Events）工作原理.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 889607.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-FileResponse()-在线预览文件效果.png",
+    "Python/01-Python 基础/Python 学习笔记.md",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 812665.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-FileResponse()-核心缺陷描述.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 557093.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-FileResponse() 与 StreamingResponse() 的底层原理差异.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 876954.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-FileResponse() 与 StreamingResponse() 的对比.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 35074.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-RedirectResponse()-重定向工作流程.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 588782.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-JSONResponse()-核心流程.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 508219.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI Response()-数据处理流.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 873294.crdownload",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-响应处理-自动JSON序列化流程.png",
+    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 249678.crdownload",
+    "Python/01-Python 基础/04-IO 操作.md",
+    "Python/01-Python 基础/07-类型系统.md",
+    "Python/01-Python 基础/06-数据类型.md",
+    "Python/01-Python 基础/12-OOP 面向对象.md",
+    "Python/01-Python 基础/16-模块化.md",
     "AI/AI 学习笔记.md",
     "Python/Python 学习笔记.md"
   ]

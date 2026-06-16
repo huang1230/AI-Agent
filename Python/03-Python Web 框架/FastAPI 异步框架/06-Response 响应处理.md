@@ -2464,7 +2464,7 @@ async def <API 接口函数>():
 
    - **浏览器发送请求**：
 
-     通过**实例化 `new EventSource('')`**，**向服务器发送一个普通的 HTTP 请求**，并**开启持续监听事件**；
+     通过**实例化 `new EventSource('')`、`fetch()`**，**向服务器发送一个普通的 HTTP 请求**，并**开启持续监听事件**；
 
      相当于*告诉服务器：“我希望与你建立一个长连接通信通道”。*🌟
 
@@ -2545,24 +2545,105 @@ async def <API 接口函数>():
 
 ###### 前端 JavaScript 处理 SSE
 
-​	SSE（Server-Send Events）是 **HTML5 的标准**，所以浏览器内置了一个 **`EventSource` 对象**，它专门用于**解析并处理 SSE 实时传输的响应数据**。
+JavaScript 处理 SSE 实时流数据，有 2 种方式
 
-```javascript
-// 1. 创建连接
-const source = new EventSource(<API 接口>);
+- **`EventSource`：早期版本的实现**（❌️不推荐）
 
-// 2. 监听服务器推送过来的消息
-source.onmessage = (event) => {
-    console.log('收到服务器推送：', event.data);
-    // event.data : 服务器每次 yield 推送的文本数据
-}
+  ​	SSE（Server-Send Events）是 **HTML5 的标准**，所以浏览器内置了一个 **`EventSource` 对象**，它专门用于**解析并处理 SSE 实时传输的响应数据**。
 
-// 3. 监听错误（比如 断开连接）
-source.onerror = (event) => {
-    console.log('连接错误或已关闭');
-    source.close(); // 彻底关闭
-}
-```
+  ```javascript
+  // 1. 创建连接
+  const source = new EventSource(<API 接口>); // 仅支持 GET 请求
+  
+  // 2. 监听服务器推送过来的消息
+  source.onmessage = (event) => {
+      console.log('收到服务器推送：', event.data);
+      // event.data : 服务器每次 yield 推送的文本数据
+  }
+  
+  // 3. 监听错误（比如 断开连接）
+  source.onerror = (error) => {
+      // error: 无法获取到有效的响应状态码
+      
+      console.log('连接错误或已关闭');
+      source.close(); // 彻底关闭
+  }
+  ```
+
+  核心缺陷：
+
+  - ❌️**无法自定义 Header**：
+
+    - **`EventSource()` 的缺陷**：**仅支持传入一个 URL**，完全**无法自定义请求头**（Headers）
+
+      ​	如果项目需要 JWT 鉴权（通常放在 `Authorization: Bearer <token>` 中），只能以 Query 查询参数的形式把 Token 参数放入 URL `?` 之后（比如 `?token=xxx`）），但这样会带来安全隐患（Token 会暴露在服务器日志、浏览器历史记录中）。
+
+    - **`fetch` 的优势**：可以**传入 `headers` 参数中自定义请求头**，完美融入现有的认证和鉴权体系
+
+  - ❌️**只支持 GET 请求，不支持 POST 请求**
+
+    - **`EventSource` 的问题：** 
+
+      ​	它强制使用 **GET** 请求。如果前端需要向后端传递非常复杂的筛选条件、超长文本（比如大模型问答时的 Prompt 历史记录），GET 请求的 URL 长度限制（通常几 KB 就会报错 414）就会成为瓶颈。
+
+    - **`fetch` 的优势：** 
+
+      ​	可以直接发送 **POST** 请求，把复杂的参数、几百 KB 的上下文数据全部塞进 `body` 里面，轻松应对大模型交互场景。
+
+  - ❌️**错误处理与重试机制非常简陋**：
+
+    - **`EventSource` 的问题**：
+
+      ​	当**后端返回 `401`、`403`、`500` 等错误响应**时，**`EventSource` 拿不到具体的 HTTP 响应状态码**，它**只会触发一个极其模糊的 `onerror()` 事件**；更糟糕的是，它还会**盲目地去自动重连**，导致前端疯狂向服务器**发送无效请求**。
+
+    - **`fetch` 的优势**：
+
+      ​	可以**通过 `fetch()` 返回的 `response` 响应对象**精准拿到 **`status` 状态码、`headers` 响应头**进行数据解析之前的**预处理**。
+
+- **`fetch` API + `ReadableStream` 流读取器**（✅️推荐、更灵活可控）
+
+  > 现在的 AI 大模型流式输出（如 ChatGPT、Claude 的打字机效果），前端几乎**清一色采用 `fetch` + `ReadableStream`**（或者社区基于此封装的 `fetch-event-source` 库），就是为了能安全地传 Token 以及发送复杂的 POST 请求。
+
+  ```javascript
+  // 灵活可控
+  const  response = await fetch(`URL`,
+      method: 'POST', // 支持 POST
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer secret_token' // 支持自定义Header
+      },
+      body: JSON.stringify({ prompt: "你好，请介绍一下SSE" })
+  );
+  
+  if (!response.ok) {
+      throw new Error(`HTTP 错误！状态码: ${response.status}`); // 精准捕获状态码
+  }
+  
+  // 获取底层的 Reader() 流读取器
+  const reader = response.body.getReader();
+  // 创建一个解码器
+  const decoder = new TextDecoder('utf-8');
+  
+  // 循环解析读取
+  while(true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      
+      // 解码 chunk 块数据
+      const chunk = decoder.decode(value, {stream: true});
+      
+      // 接下来自己按照 SSE 的规范（data: 开头，\n\n 结尾）解析 chunk 即可
+  }
+  ```
+
+两者对比：
+
+| **功能特性**       | **原生 EventSource**（❌️不推荐） | **fetch + ReadableStream**（✅️推荐） |
+| ------------------ | ------------------------------- | ----------------------------------- |
+| **HTTP 方法**      | 仅限 `GET`                      | `GET`, `POST` 等任意方法            |
+| **自定义 Headers** | ❌ 不支持                        | 支持                                |
+| **状态码捕获**     | ❌ 拿不到，只有模糊的 `error`    | 可以拿到精准的 HTTP 状态码          |
+| **重试控制**       | 自动重试（有时会变成死循环）    | 由开发者代码完全控制                |
 
 ###### 对接大语言模型（LLM）流式输出
 
@@ -2670,7 +2751,7 @@ if __name__ == '__main__':
 
 JS 前端：
 
-本地创建一个 `index.html`，通过 `fetch` 的 `ReadableStream` 边收边渲染。*也可以使用 EventSource 对象*
+本地创建一个 `index.html`，通过 `fetch` 的 `ReadableStream` 边收边渲染。
 
 ```html
 <!doctype html>

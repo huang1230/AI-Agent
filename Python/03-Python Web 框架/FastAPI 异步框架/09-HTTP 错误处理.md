@@ -476,6 +476,61 @@ async def http_exception_test2():
                                [调用 http_exception_test2()]
 ```
 
+#### FastAPI 参数校验机制的优先级
+
+核心定义：明确一点，FastAPI 的**参数解析与校验的优先级，高于 `Depends()` 依赖项函数的内部校验逻辑**。
+
+核心流程如下：
+
+```css
+[ 收到 HTTP 请求 ]
+       │
+       ▼
+1. 检查Header()请求头\Path()、Query()请求参数\Body()请求体是否验证通过
+       │
+       ├─► 触发 Pydantic 校验失败 ──► 抛出 422 Unprocessable Entity
+       │
+       ▼ [参数校验通过]
+2. 进入 Depends() 依赖项函数内部
+       │
+       ▼
+3. 执行相关业务逻辑判断代码：如 raise HTTPException():` ──► 抛出 xxx 异常
+```
+
+##### 关键点
+
+**`Path()\Query()\Body()\Header()...` 是否给定了默认值**：
+
+- **给定了默认值（比如 `...`）**：
+
+  那么一定会**先走 FastAPI 的 Pydantic 参数校验处理**，判断**是否传入了相关的参数，没有传入则直接抛出 422 异常**
+
+- 如果想**绕过这个 Pydantic 参数校验处理**，而是**执行自定义的 `raise HTTPException()` 异常处理业务逻辑**，则需**给`形参变量` 给定一个 `None` 默认值**
+
+##### 示例
+
+假设没有传入 `x-token` 请求头字段：
+
+```python
+# 不给默认值：直接触发 FastAPI 的 Pydantic 参数校验机制，抛出 422 异常
+async def verify_token(x_token: str = Header(..., description='X-Token 请求头')):
+    # 永远不会进入...
+        
+        
+# 给定 None 或其他默认值
+async def verify_token(x_token: str = Header(None, description='X-Token 请求头')):
+    # 进入....，执行自定义的业务校验逻辑
+    if x_token != 'super-secret-token':
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='X-Token 请求头无效'
+        )
+```
+
+核心流程：
+
+​	通过设置 `Header\Path\Query...(None)`，FastAPI 的数据解析流水线会认为：“哦，这个 `x-token` 没传也没关系，我传个 `None` 进去就好了。” 这样请求就能顺利通过第一关（Pydantic 校验），成功进入 `verify_token` 函数内部，从而触发自定义的 `raise HTTPException()` 异常处理。
+
 ### @app.exception_handler 异常处理器
 
 在 FastAPI 中，提供了一个 **`@app.exception_handler(<异常类>)` 装饰器**，它是一个**全局异常处理器**，用于**修饰一个「异常处理函数」**。

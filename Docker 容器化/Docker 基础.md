@@ -1286,27 +1286,29 @@ $docker exec mongo_test ps -ef
 
 ![](media/docker exec 查看容器内部（Linux 子系统）.png)
 
-#### exec -it [id/names] \bin\sh 命令交互式环境
+#### exec -it [id/names] [bash/sh] 命令交互式环境
 
 核心作用：**进入 Docker 容器内部，获取一个 Linux 命令的交互式环境。**
 
 ##### 与 `exec` 的区别
 
 - **`docker exec`：一次只能发送一条 Linux 命令**
-- **`docker exec -it xxx \bin\sh`：直接进入容器内部，通过交互式环境，自由发送多条 Linux 命令**
+- **`docker exec -it xxx bash`：直接进入容器内部，通过交互式环境，自由发送多条 Linux 命令**
 
 > ⚠️ 注意点：由于 **Docker 为了尽量压缩镜像的大小，Docker 容器内部只是一个极简的 Linux 操作系统**，**只能运行一些基本的命令**（`ls` 查看文件列表、`ps` 查看进程....），若**想使用 `vim`... 等工具，需额外下载安装**。
 
 ##### 基本语法
 
 ```shell
-$docker exec -it [容器ID / NAMES容器名] \bin\sh
+$docker exec -it [容器ID / NAMES容器名] bash
+$docker exec -it [容器ID / NAMES容器名] sh
+# 两者等价
 ```
 
 示例：
 
-```shell
-$docker exec -it my_nginx \bin\sh
+```bash
+$docker exec -it my_nginx bash
 $ ls
 bin  boot  dev  docker-entrypoint.d  docker-entrypoint.sh  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 $ cd /usr/share/nginx/html
@@ -1602,7 +1604,7 @@ CMD ["python3","main.py"]
 
 项目目录结构：
 
-```css
+```
 demo/
 |	- server.py
 |	- requirements.txt

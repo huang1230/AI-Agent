@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "cec8059cc1ffffbc",
+        "id": "0aa634f1fdbe38c3",
         "type": "tabs",
         "children": [
           {
-            "id": "75c62eb5a360605e",
+            "id": "4ec99e21651a1be2",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Python/01-Python 基础/08-运算符.md",
+                "file": "Python/01-Python 基础/04-IO 操作.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "08-运算符"
+              "title": "04-IO 操作"
             }
           }
         ]
@@ -53,13 +53,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Python/01-Python 基础/08-运算符.md",
+                "file": "PostgreSQL 数据库/数据库系统概论笔记/第 3 章：关系数据库标准语言 SQL.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "08-运算符 的大纲"
+              "title": "第 3 章：关系数据库标准语言 SQL 的大纲"
             }
           },
           {
@@ -89,8 +89,7 @@
               "title": "书签"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -199,9 +198,18 @@
       "bases:新建数据库": false
     }
   },
-  "active": "13f659b9ea3a7640",
+  "active": "4ec99e21651a1be2",
   "lastOpenFiles": [
+    "PostgreSQL 数据库/数据库系统概论笔记/第 5 章：数据库完整性.md",
+    "PostgreSQL 数据库/数据库系统概论笔记/第 3 章：关系数据库标准语言 SQL.md",
+    "PostgreSQL 数据库/media/SQL三级模式结构.png",
+    "PostgreSQL 数据库/数据库系统概论笔记/第 4 章：数据库安全性.md",
+    "media/SQL.md",
+    "media",
+    "PostgreSQL 数据库/PostgreSQL 学习笔记.md",
     "Python/01-Python 基础/02-环境管理.md",
+    "Python/01-Python 基础/01-简介.md",
+    "Python/01-Python 基础/08-运算符.md",
     "Python/03-Python Web 框架/FastAPI 异步框架/media/SSE（Server-Sent Events）-断线重连机制.png",
     "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 607598.crdownload",
     "Python/03-Python Web 框架/FastAPI 异步框架/media/SSE（Server-Sent Events）工作原理.png",
@@ -221,8 +229,6 @@
     "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 508219.crdownload",
     "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI Response()-数据处理流.png",
     "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 873294.crdownload",
-    "Python/03-Python Web 框架/FastAPI 异步框架/media/FastAPI-响应处理-自动JSON序列化流程.png",
-    "Python/03-Python Web 框架/FastAPI 异步框架/media/未确认 249678.crdownload",
     "Python/01-Python 基础/04-IO 操作.md",
     "Python/01-Python 基础/07-类型系统.md",
     "Python/01-Python 基础/06-数据类型.md",

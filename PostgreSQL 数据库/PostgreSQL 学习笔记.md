@@ -1446,41 +1446,6 @@ SELECT CURRENT_TIME; -- 11:12:07.598553+08
 SELECT CURRENT_TIMESTAMP; -- 2026-06-18 11:12:07.59884+08
 ```
 
-## `pg_authid` 系统用户注册表
-
-**`pg_authid` 是 PostgreSQL 中一张极其核心的系统表，存储着数据库集群中所有“角色”的信息。**
-
-> 注：平时使用的 `CREATE USER`、`ALTER ROLE` 等命令，最终都是通过修改 `pg_authid` 表的内容来生效的。出于安全考虑，日常查询角色信息应使用 `pg_roles` 视图。
-
-- **核心作用：存储所有角色**：`pg_authid` 表记录了关于数据库“授权标识符”的全部信息，这个标识符就是我们常说的“角色”（Role）。在 PostgreSQL 中，**“用户”和“组”的概念都被统一为“角色”**。一个拥有登录权限（`rolcanlogin` 标志为 true）的角色，就是我们通常所说的“数据库用户”。
-- **集群级别共享**：角色信息是**集群级别**的，而不是某个数据库私有的。在整个数据库集群中，只有一份 `pg_authid` 表，所有数据库共享这份统一的角色清单。
-- **安全保护：密码脱敏**：因为这张表里存储了角色的密码（`rolpassword` 字段），所以它**默认对普通用户不可见**。PostgreSQL 提供了一个名为 `pg_roles` 的公开视图，它能查询 `pg_authid` 中除了密码字段之外的所有信息，用于日常的角色查询。
-
-### 核心字段
-
-| 字段名          | 类型          | 描述                                                         |
-| :-------------- | :------------ | :----------------------------------------------------------- |
-| `rolname`       | `name`        | **角色名称**。这是你登录数据库时使用的用户名。               |
-| `rolsuper`      | `bool`        | **是否为超级用户**。超级用户拥有绕过所有权限检查的最高权限。 |
-| `rolcanlogin`   | `bool`        | **是否可以登录**。为 `true` 的角色就是“数据库用户”，反之则更像一个“用户组”。 |
-| `rolpassword`   | `text`        | **角色的密码**（可能已加密）。通常以 `md5` 或 `SCRAM-SHA-256` 格式存储。**该字段在公开视图 `pg_roles` 中被隐藏**。 |
-| `rolcreatedb`   | `bool`        | **是否可以创建数据库**。对应 `CREATE DATABASE` 的权限。      |
-| `rolcreaterole` | `bool`        | **是否可以创建其他角色**。对应 `CREATE ROLE` 的权限。        |
-| `rolconnlimit`  | `int4`        | **最大并发连接数限制**。`-1` 表示无限制。                    |
-| `rolvaliduntil` | `timestamptz` | **密码过期时间**。用于实现密码有效期管理。                   |
-
-### 常见 SQL 查询操作
-
-```postgresql
--- 查看所有角色的名称和是否拥有超级用户权限
-SELECT rolname, rolsuper FROM pg_roles;
-
--- 查看所有可以登录的“用户”角色
-SELECT rolname FROM pg_roles WHERE rolcanlogin = true;
-```
-
-
-
 # Database 数据库操作
 
 ## 默认数据库（`postgres`）
@@ -2371,7 +2336,7 @@ CREATE TABLE marketing.members
 >     ```postgresql
 >     SELECT * FROM product WHERE name = '苹果手机';
 >     -- '苹果手机' 是一个字符串值
->         
+>                 
 >     INSERT INTO product (datetime) VALUES ('2026-06-19 12:00:00');
 >     -- '2026-06-19 12:00:00' 是一个日期时间字符串
 >     
@@ -2391,10 +2356,10 @@ CREATE TABLE marketing.members
 >         "UserId" INT,
 >         name TEXT
 >     );
->         
+>                 
 >     -- 查询时：必须严格带双引号和大小写
 >     SELECT "UserId", "UserName" AS "用户名" FROM "User_Info"; 
->         
+>                 
 >     -- 错误查询：不加双引号，Postgres 会去找小写的 userid 和 user_info，导致报错
 >     SELECT UserId FROM User_Info;
 >     ```

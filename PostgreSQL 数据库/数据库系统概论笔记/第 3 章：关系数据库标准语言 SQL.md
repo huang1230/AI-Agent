@@ -801,8 +801,6 @@ SELECT DISTINCT <列名> FROM <表名>;
 SELECT DISTINCT Sno FROM Student WHERE Grade < 60;
 ```
 
-
-
 -----
 
 ### 条件查询 where
@@ -1485,7 +1483,7 @@ WHERE Student.Sno = SC.Cno AND SC.Cno = Course.Cno;
 
 ----
 
-### 嵌套查询
+### 嵌套子查询
 
 **一个 SELECT-FROM-WHERE 语句称为一个查询块**。
 
@@ -1501,7 +1499,7 @@ WHERE Student.Sno = SC.Cno AND SC.Cno = Course.Cno;
 
 **③ 有些嵌套语句可以用连接运算代替。**
 
-**④ 外层查询（父查询），内层查询（子查询）**
+**④ 外层查询（父查询），内层查询（子查询）**	
 
 【说明】
 
@@ -1929,6 +1927,8 @@ WHERE NOT EXISTS
 **UNION：将多个查询结果合并起来，系统自动去除重复元组。**
 
 **UNION  ALL：将多个查询结果合并起来，保留重复元组。**
+
+前提是两张表的结构完全一致。
 
 格式：
 
